@@ -97,7 +97,8 @@ class HiveDatabase {
 
   //return completion status of a given date yyyymmdd
   int getCompletionStatus(String yyyymmdd) {
-    int completionStatus = _myBox.get("COMPLETION_STATUS$yyyymmdd") ?? 0;
+    // stored keys look like "COMPLETION_STATUS_20250922"
+    int completionStatus = _myBox.get("COMPLETION_STATUS_$yyyymmdd") ?? 0;
     //return 0 or 1 and 0 for null i.e user didnt use app on that date
     return completionStatus;
   }

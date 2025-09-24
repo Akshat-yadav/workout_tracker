@@ -14,18 +14,23 @@ class MyHeatMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(25),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Color(0xFFDBDBDB),
+      ),
       child: HeatMap(
         startDate: createDateTimeObject(startDateYYYYMMDD),
         endDate: DateTime.now().add(const Duration(days: 0)),
         datasets: datasets,
         colorMode: ColorMode.color,
-        defaultColor: Colors.green,
+        // use a neutral color for days with 0 (not completed) so green only shows for completed days
+        defaultColor: Color(0xFFC7C7C7),
         textColor: Colors.white,
         showColorTip: false,
         showText: true,
         scrollable: true,
-        size: 30,
+        size: 40,
+        margin: EdgeInsets.all(3),
         colorsets: const {1: Colors.green},
       ),
     );

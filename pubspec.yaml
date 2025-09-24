@@ -38,6 +38,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_heatmap_calendar: ^1.0.5
+  flutter_slidable: ^4.0.1
 
 dev_dependencies:
   flutter_test:
@@ -55,7 +56,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  assets:
+    - assets/icons/workout.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

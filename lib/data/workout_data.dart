@@ -33,7 +33,7 @@ class WorkoutData extends ChangeNotifier {
   ];
 
   //if this the first time firing uo the app in lifetime of app
-  //if there are workouts already in database then get workout list, else just the default app
+  //if there are workouts already in database then get workout list, else just the default list
   void initializeWorkoutList() {
     if (db.previousDataExists()) {
       workoutList = db.readFromDatabase();
@@ -86,11 +86,12 @@ class WorkoutData extends ChangeNotifier {
     //finding the workout from the list to check off its status
     Exercise relevantExercise = getRelevantExercise(workoutName, exerciseName);
     relevantExercise.isCompleted = !relevantExercise.isCompleted;
-    notifyListeners();
-    //save to database
+    //save to database first so db has the latest completion status
     db.saveToDatabase(workoutList);
-    //loding heat map
+    //reload heat map dataset from db
     loadHeatMap();
+    //then notify UI listeners to rebuild with updated heatmap and lists
+    notifyListeners();
   }
 
   //return relevant workout object, given a workout name
@@ -130,12 +131,15 @@ class WorkoutData extends ChangeNotifier {
   void loadHeatMap() {
     DateTime startDate = createDateTimeObject(getStartDate());
 
+    // clear existing entries so reloading doesn't duplicate or keep stale values
+    heatMapDataSet = {};
+
     //calculating number of days to load
     int daysInBetween = DateTime.now().difference(startDate).inDays;
 
     //iterate from start date to today and add each completion status to the dataset
     //"COMPLETION_STATUS_yyyymmdd" will be the key in the database
-    for (int i = 0; i < daysInBetween; i++) {
+    for (int i = 0; i < daysInBetween + 1; i++) {
       String yyyymmdd = convertdateTimeObjectToyyyymmdd(
         startDate.add(Duration(days: i)),
       );

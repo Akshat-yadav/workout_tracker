@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_app/components/exercise_tile.dart';
+import 'package:workout_app/components/textfield.dart';
 import 'package:workout_app/data/workout_data.dart';
 
 class WorkoutPage extends StatefulWidget {
@@ -31,38 +32,51 @@ class _WorkoutPageState extends State<WorkoutPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Add a new exercise"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            //exercise name
-            TextField(
-              controller: exerciseNameTextController,
-              decoration: InputDecoration(hintText: "Exercise name"),
-            ),
+        backgroundColor: Color.fromRGBO(41, 41, 41, 1),
+        content: Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              //exercise name
+              MyTextField(
+                controller: exerciseNameTextController,
+                hint: "New exercise name",
+                isNum: false,
+              ),
+              SizedBox(height: 7),
 
-            //weight
-            TextField(
-              controller: weightTextController,
-              decoration: InputDecoration(hintText: "weight"),
-            ),
+              //weight
+              MyTextField(
+                controller: weightTextController,
+                hint: "weight (kg)",
+                isNum: true,
+              ),
+              SizedBox(height: 7),
 
-            //reps
-            TextField(
-              controller: repsTextController,
-              decoration: InputDecoration(hintText: "reps"),
-            ),
+              //reps
+              MyTextField(
+                controller: repsTextController,
+                hint: "reps",
+                isNum: true,
+              ),
+              SizedBox(height: 7),
 
-            //sets
-            TextField(
-              controller: setsTextController,
-              decoration: InputDecoration(hintText: "sets"),
-            ),
-          ],
+              //sets
+              MyTextField(
+                controller: setsTextController,
+                hint: "sets",
+                isNum: true,
+              ),
+              SizedBox(height: 7),
+            ],
+          ),
         ),
         actions: [
           //save
           MaterialButton(
+            color: Colors.black26,
+            textColor: Colors.white,
             onPressed: () {
               Provider.of<WorkoutData>(context, listen: false).addExercise(
                 widget.workoutName,
@@ -82,6 +96,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
           //cancel
           MaterialButton(
+            color: Colors.black26,
+            textColor: Colors.white,
             onPressed: () {
               Navigator.of(context).pop();
               exerciseNameTextController.clear();
@@ -103,37 +119,41 @@ class _WorkoutPageState extends State<WorkoutPage> {
         appBar: AppBar(title: Text(widget.workoutName)),
         floatingActionButton: FloatingActionButton(
           onPressed: createNewExercise,
+          backgroundColor: Color(0xFF292929),
           child: Icon(Icons.add),
         ),
         body: ListView.builder(
           itemCount: value.numberOfExercisesInWorkout(widget.workoutName),
-          itemBuilder: (context, index) => ExerciseTile(
-            exerciseName: value
-                .getRelevantWorkout(widget.workoutName)
-                .exercises[index]
-                .name,
-            weight: value
-                .getRelevantWorkout(widget.workoutName)
-                .exercises[index]
-                .weight,
-            reps: value
-                .getRelevantWorkout(widget.workoutName)
-                .exercises[index]
-                .reps,
-            sets: value
-                .getRelevantWorkout(widget.workoutName)
-                .exercises[index]
-                .sets,
-            isCompleted: value
-                .getRelevantWorkout(widget.workoutName)
-                .exercises[index]
-                .isCompleted,
-            onCheckBoxChanged: (val) => onCheckBoxChanged(
-              widget.workoutName,
-              value
+          itemBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.only(left: 12, right: 12, top: 16),
+            child: ExerciseTile(
+              exerciseName: value
                   .getRelevantWorkout(widget.workoutName)
                   .exercises[index]
                   .name,
+              weight: value
+                  .getRelevantWorkout(widget.workoutName)
+                  .exercises[index]
+                  .weight,
+              reps: value
+                  .getRelevantWorkout(widget.workoutName)
+                  .exercises[index]
+                  .reps,
+              sets: value
+                  .getRelevantWorkout(widget.workoutName)
+                  .exercises[index]
+                  .sets,
+              isCompleted: value
+                  .getRelevantWorkout(widget.workoutName)
+                  .exercises[index]
+                  .isCompleted,
+              onCheckBoxChanged: (val) => onCheckBoxChanged(
+                widget.workoutName,
+                value
+                    .getRelevantWorkout(widget.workoutName)
+                    .exercises[index]
+                    .name,
+              ),
             ),
           ),
         ),

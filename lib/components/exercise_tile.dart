@@ -21,24 +21,57 @@ class ExerciseTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blueAccent,
-      child: ListTile(
-        title: Text(exerciseName),
-        subtitle: Row(
-          children: [
-            //weight
-            Chip(label: Text("$weight kg")),
+      height: 100,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: isCompleted ? Colors.green : Color(0xFFDBDBDB),
+      ),
+      child: Center(
+        child: ListTile(
+          title: Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Text(
+              exerciseName.toUpperCase(),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            ),
+          ),
+          subtitle: Row(
+            children: [
+              //weight
+              Transform.scale(
+                scale: 0.85,
+                child: Chip(
+                  label: Text("$weight kg"),
+                  backgroundColor: Color(0xFF414040),
+                  labelStyle: TextStyle(color: Colors.white),
+                ),
+              ),
 
-            //reps
-            Chip(label: Text("$reps reps")),
+              //reps
+              Transform.scale(
+                scale: 0.85,
+                child: Chip(
+                  label: Text("$reps reps"),
+                  backgroundColor: Color(0xFF414040),
+                  labelStyle: TextStyle(color: Colors.white),
+                ),
+              ),
 
-            //sets
-            Chip(label: Text("$sets sets")),
-          ],
-        ),
-        trailing: Checkbox(
-          value: isCompleted,
-          onChanged: (value) => onCheckBoxChanged!(value),
+              //sets
+              Transform.scale(
+                scale: 0.85,
+                child: Chip(
+                  label: Text("$sets sets"),
+                  backgroundColor: Color(0xFF414040),
+                  labelStyle: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+          trailing: Checkbox(
+            value: isCompleted,
+            onChanged: (value) => onCheckBoxChanged!(value),
+          ),
         ),
       ),
     );
