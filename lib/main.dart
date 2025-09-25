@@ -3,7 +3,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_app/components/theme/material_black.dart';
 import 'package:workout_app/data/workout_data.dart';
-import 'package:workout_app/pages/home_page.dart';
+import 'package:workout_app/pages/splash_screen.dart';
 
 void main() async {
   //initialize hive
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       create: (context) => WorkoutData(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: HomePage(),
+        home: MySplashScreen(),
         theme: ThemeData(
           useMaterial3: false,
           primarySwatch: customGreySwatch,

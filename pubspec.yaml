@@ -39,6 +39,8 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_heatmap_calendar: ^1.0.5
   flutter_slidable: ^4.0.1
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.6
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +60,8 @@ dev_dependencies:
 flutter:
   assets:
     - assets/icons/workout.png
+    - assets/icons/splashpage.png
+    - assets/icons/icon.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -93,3 +97,13 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_native_splash:
+  color: "#C7C7C7"          # background color
+  image: assets/icons/icon.png    # your splash image
+  android: true
+  ios: true
+
+  android_12:
+    image: assets/icons/icon.png
+    icon_background_color: "#C7C7C7"
