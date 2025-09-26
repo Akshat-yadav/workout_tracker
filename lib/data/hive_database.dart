@@ -6,6 +6,7 @@ import 'package:workout_app/models/workout.dart';
 class HiveDatabase {
   //reference the box
   final _myBox = Hive.box("workout_database");
+  final _activeDateBox = Hive.box("last_active_date");
 
   //check if data is stored, if not record the start date
   bool previousDataExists() {
@@ -35,12 +36,21 @@ class HiveDatabase {
     
     
     */
-
-    if (exerciseCompleted(workouts)) {
-      _myBox.put("COMPLETION_STATUS_${todayDateYYYYMMDD()}", 1);
+    int count = exerciseCompleted(workouts);
+    if (count < 1) {
+      count = 0;
+    } else if (count == 1 || count == 2) {
+      count = 1;
     } else {
-      _myBox.put("COMPLETION_STATUS_${todayDateYYYYMMDD()}", 0);
-    } // COMPLETION_STATUS_20250920 -> 1
+      count = 2;
+    }
+    _myBox.put("COMPLETION_STATUS_${todayDateYYYYMMDD()}", count);
+
+    // if (exerciseCompleted(workouts)) {
+    //   _myBox.put("COMPLETION_STATUS_${todayDateYYYYMMDD()}", 1);
+    // } else {
+    //   _myBox.put("COMPLETION_STATUS_${todayDateYYYYMMDD()}", 0);
+    // } // COMPLETION_STATUS_20250920 -> 1
 
     _myBox.put("WORKOUTS", workoutList);
     _myBox.put("EXERCISES", exerciseList);
@@ -84,15 +94,16 @@ class HiveDatabase {
   }
 
   //check if any exercise is done
-  bool exerciseCompleted(List<Workout> workouts) {
+  int exerciseCompleted(List<Workout> workouts) {
+    int total = 0;
     for (var workout in workouts) {
       for (var exercise in workout.exercises) {
         if (exercise.isCompleted) {
-          return true;
+          total++;
         }
       }
     }
-    return false;
+    return total;
   }
 
   //return completion status of a given date yyyymmdd
@@ -101,6 +112,24 @@ class HiveDatabase {
     int completionStatus = _myBox.get("COMPLETION_STATUS_$yyyymmdd") ?? 0;
     //return 0 or 1 and 0 for null i.e user didnt use app on that date
     return completionStatus;
+  }
+
+  // check if app has been previous accessed or not
+  bool lastActiveDataExists() {
+    if (_activeDateBox.isEmpty) {
+      _activeDateBox.put("LAST_ACTIVE_DATE", todayDateYYYYMMDD());
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  String getLastActiveDate() {
+    return _activeDateBox.get("LAST_ACTIVE_DATE");
+  }
+
+  void updateLastActiveDate() {
+    _activeDateBox.put("LAST_ACTIVE_DATE", todayDateYYYYMMDD());
   }
 }
 

@@ -31,7 +31,7 @@ class MyHeatMap extends StatelessWidget {
         scrollable: true,
         size: 40,
         margin: EdgeInsets.all(3),
-        colorsets: const {1: Colors.green},
+        colorsets: {1: Colors.green[300]!, 2: Colors.green[600]!},
       ),
     );
   }

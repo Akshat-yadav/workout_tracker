@@ -58,6 +58,9 @@ class WorkoutData extends ChangeNotifier {
   void addWorkout(String name) {
     workoutList.add(Workout(name: name, exercises: []));
 
+    //updating last active date of app
+    db.updateLastActiveDate();
+
     notifyListeners();
     //save to database
     db.saveToDatabase(workoutList);
@@ -76,6 +79,10 @@ class WorkoutData extends ChangeNotifier {
     relevantWorkout.exercises.add(
       Exercise(name: exerciseName, weight: weight, reps: reps, sets: sets),
     );
+
+    //updating last active date of app
+    db.updateLastActiveDate();
+
     notifyListeners();
     //save to database
     db.saveToDatabase(workoutList);
@@ -86,6 +93,10 @@ class WorkoutData extends ChangeNotifier {
     //finding the workout from the list to check off its status
     Exercise relevantExercise = getRelevantExercise(workoutName, exerciseName);
     relevantExercise.isCompleted = !relevantExercise.isCompleted;
+
+    //updating last active date of app
+    db.updateLastActiveDate();
+
     //save to database first so db has the latest completion status
     db.saveToDatabase(workoutList);
     //reload heat map dataset from db
@@ -162,6 +173,29 @@ class WorkoutData extends ChangeNotifier {
 
       //add to heat map dataset
       heatMapDataSet.addEntries(percentForEachDay.entries);
+    }
+  }
+
+  //if the app is loaded for the first time today then check off all the exercises to false
+  void initializeExercise() {
+    if (db.lastActiveDataExists()) {
+      final today = todayDateYYYYMMDD();
+      final lastDate = db.getLastActiveDate();
+      if (today != lastDate) {
+        checkOffAllWorkouts();
+      }
+    }
+    notifyListeners();
+    //save to database
+    db.saveToDatabase(workoutList);
+    loadHeatMap();
+  }
+
+  void checkOffAllWorkouts() {
+    for (var workout in workoutList) {
+      for (var exercise in workout.exercises) {
+        exercise.isCompleted = false;
+      }
     }
   }
 }

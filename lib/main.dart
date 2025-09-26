@@ -9,8 +9,10 @@ void main() async {
   //initialize hive
   await Hive.initFlutter();
 
-  //opening the hive box
+  //opening the hive box for workout data
   await Hive.openBox("workout_database");
+  //opening the hive box for last active date
+  await Hive.openBox("last_active_date");
 
   runApp(const MyApp());
 }
