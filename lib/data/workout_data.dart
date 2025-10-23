@@ -66,6 +66,22 @@ class WorkoutData extends ChangeNotifier {
     db.saveToDatabase(workoutList);
   }
 
+  //delete a workout
+  void deleteWWorkout(String name) {
+    //deleting workout
+    workoutList.removeWhere((item) => item.name == name);
+
+    //updating last active date of app
+    db.updateLastActiveDate();
+
+    //save to database
+    db.saveToDatabase(workoutList);
+
+    loadHeatMap();
+
+    notifyListeners();
+  }
+
   //add an excercise in a workout
   void addExercise(
     String workoutName,
@@ -86,6 +102,23 @@ class WorkoutData extends ChangeNotifier {
     notifyListeners();
     //save to database
     db.saveToDatabase(workoutList);
+  }
+
+  //delete exercise in a workout
+  void deleteExercise(String workoutName, String exerciseName) {
+    //finding the workout from the list to add excercise to
+    Workout relevantWorkout = getRelevantWorkout(workoutName);
+    relevantWorkout.exercises.removeWhere((item) => item.name == exerciseName);
+
+    //updating last active date of app
+    db.updateLastActiveDate();
+
+    //save to database
+    db.saveToDatabase(workoutList);
+
+    loadHeatMap();
+
+    notifyListeners();
   }
 
   //check off the excercise

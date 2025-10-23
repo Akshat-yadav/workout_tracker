@@ -127,7 +127,11 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           SlidableAction(
-                            onPressed: (context) {},
+                            onPressed: (context) {
+                              value.deleteWWorkout(
+                                value.workoutList[index].name,
+                              );
+                            },
                             icon: Icons.delete,
                             backgroundColor: Colors.red,
                             borderRadius: BorderRadius.circular(12),

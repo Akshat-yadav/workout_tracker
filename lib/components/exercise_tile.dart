@@ -7,6 +7,7 @@ class ExerciseTile extends StatelessWidget {
   final String sets;
   final bool isCompleted;
   void Function(bool?)? onCheckBoxChanged;
+  void Function()? onTap;
 
   ExerciseTile({
     super.key,
@@ -16,6 +17,7 @@ class ExerciseTile extends StatelessWidget {
     required this.sets,
     required this.isCompleted,
     required this.onCheckBoxChanged,
+    required this.onTap,
   });
 
   @override
@@ -68,9 +70,23 @@ class ExerciseTile extends StatelessWidget {
               ),
             ],
           ),
-          trailing: Checkbox(
-            value: isCompleted,
-            onChanged: (value) => onCheckBoxChanged!(value),
+          trailing: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // checkbox for completion
+              Checkbox(
+                value: isCompleted,
+                onChanged: (value) => onCheckBoxChanged!(value),
+              ),
+              SizedBox(width: 8),
+
+              // delete button
+              GestureDetector(
+                onTap: onTap,
+                child: Icon(Icons.delete, color: Colors.grey[400], size: 32),
+              ),
+            ],
           ),
         ),
       ),

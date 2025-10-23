@@ -154,6 +154,13 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     .exercises[index]
                     .name,
               ),
+              onTap: () => value.deleteExercise(
+                widget.workoutName,
+                value
+                    .getRelevantWorkout(widget.workoutName)
+                    .exercises[index]
+                    .name,
+              ),
             ),
           ),
         ),
