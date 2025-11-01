@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
-import 'package:workout_app/components/theme/material_black.dart';
+import 'package:workout_app/theme/material_black.dart';
 import 'package:workout_app/data/workout_data.dart';
 import 'package:workout_app/pages/splash_screen.dart';
 

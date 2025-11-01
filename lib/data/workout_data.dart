@@ -209,7 +209,7 @@ class WorkoutData extends ChangeNotifier {
     }
   }
 
-  //if the app is loaded for the first time today then check off all the exercises to false
+  //if the app is loaded for the first time for a date then check off all the exercises to false
   void initializeExercise() {
     if (db.lastActiveDataExists()) {
       final today = todayDateYYYYMMDD();

@@ -20,7 +20,7 @@ class _WorkoutTileState extends State<WorkoutTile> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(left: 10),
+        padding: const EdgeInsets.only(left: 12),
         child: ListTile(
           leading: Image.asset(
             'assets/icons/workout.png',
